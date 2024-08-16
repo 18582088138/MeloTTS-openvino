@@ -4,8 +4,9 @@ import glob
 import sys
 
 
-language = sys.argv[1]
-model = TTS(language=language)
+#language = sys.argv[1]
+language = 'ZH'
+model = TTS(language='ZH',use_ov=True,int8_flag=False)
 
 speaker_ids = model.hps.data.spk2id
 speakers = list(speaker_ids.keys())
@@ -39,5 +40,6 @@ for speed in [1.0]:
     for speaker in speakers:
         for sent_id, text in enumerate(texts):
             output_path = f'{save_dir}/{speaker}/speed_{speed}/sent_{sent_id:03d}.wav'
+            print("========output_path wav========",output_path)
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             model.tts_to_file(text, speaker_ids[speaker], output_path, speed=speed)
